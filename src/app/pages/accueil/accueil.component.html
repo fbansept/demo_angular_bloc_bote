@@ -1,0 +1,74 @@
+<div class="conteneur conteneur-wrap" (click)="onClickHorsFormulaire($event)">
+
+  <div class="conteneur-align-centre largeur-max">
+    <mat-card class="basic-input conteneur-align-gauche" (click)="onClickFormulaire($event)">
+
+      <form [formGroup]="form" >
+
+        <mat-form-field *ngIf="focus" class="largeur-max">
+          <input matInput formControlName="titre" placeholder="Saisissez un titre...">
+        </mat-form-field>
+
+        <mat-form-field class="largeur-max">
+          <textarea matInput formControlName="texte" placeholder="Saisissez une note..." (focus)="focus = true"></textarea>
+        </mat-form-field>
+
+        <div *ngIf="ajoutFichier">
+          <div *ngIf="files.length == 0" class="container" appDnd (fileDropped)="onFileDropped($event)">
+            <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target)" />
+            <mat-icon style="font-size: 4em;width: 4em;">upload_file</mat-icon>
+            <div>Déposez le fichier ici ou cliquez pour parcourir</div>
+          </div>
+          <div class="files-list">
+            <div class="single-file" *ngFor="let file of files; let i = index">
+              <img src="assets/img/dnd/ic-file.svg" width="45px" alt="file">
+              <div class="info">
+                <h4 class="name">
+                  {{ file?.name }}
+                </h4>
+                <p class="size">
+                  {{ formatBytes(file?.size) }}
+                </p>
+                <app-progress [progress]="file?.progress"></app-progress>
+              </div>
+              <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="20px" alt="file" (click)="deleteFile(i)">
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="focus" class="conteneur-ligne">
+
+          <div class="conteneur-ligne">
+            <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+              <mat-button-toggle value="bold"><mat-icon>receipt_long</mat-icon></mat-button-toggle>
+              <mat-button-toggle value="italic"><mat-icon>article</mat-icon></mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+
+          <div class="conteneur-ligne-align-droite">
+
+            <button (click)="ajoutFichier = !ajoutFichier" mat-mini-fab aria-label="Ajouter une photo">
+              <mat-icon>add_a_photo</mat-icon>
+            </button>
+
+            <button (click)="ajoutNote()" color="primary" mat-mini-fab aria-label="Créer une liste">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </mat-card>
+
+
+  </div>
+
+  <mat-card class="note" *ngFor="let note of listeNote">
+    <h3>{{note.titre}}</h3>
+    <p> {{note?.texte}}</p>
+    <div *ngFor="let tache of note?.listeTache">
+      <mat-checkbox [(ngModel)]="tache.termine">{{tache.texte}}</mat-checkbox>
+    </div>
+  </mat-card>
+</div>

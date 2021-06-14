@@ -1,0 +1,28 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()"
+  class="conteneur conteneur-align-centre conteneur-largeur-max">
+
+  <mat-card class="conteneur-align-gauche conteneur-largeur-moyen">
+
+    <mat-form-field class="basic-input">
+      <mat-label>Pseudo</mat-label>
+      <input matInput formControlName="pseudo" placeholder="Saissez votre pseudo">
+    </mat-form-field>
+
+    <mat-form-field class="basic-input">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput formControlName="mot-de-passe" placeholder="Saissez votre mot de passe" type="password">
+    </mat-form-field>
+
+    <div class="conteneur-ligne">
+      <button type="submit" [disabled]="loading" mat-raised-button color="primary">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Connexion
+      </button>
+      <a routerLink="/register" mat-button >Inscription</a>
+    </div>
+
+  </mat-card>
+
+</form>
+
+
